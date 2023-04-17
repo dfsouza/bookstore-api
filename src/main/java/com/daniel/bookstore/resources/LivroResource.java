@@ -1,5 +1,8 @@
 package com.daniel.bookstore.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.bookstore.domain.Livro;
+import com.daniel.bookstore.dtos.LivroDTO;
 import com.daniel.bookstore.service.LivroService;
 
 @RestController
@@ -22,6 +26,13 @@ public class LivroResource {
 
 		Livro obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
+	}
+
+	@GetMapping
+	public ResponseEntity<List<LivroDTO>> findAll() {
+		List<Livro> list = service.findAll();
+		List<LivroDTO> listDTO = list.stream().map(obj -> new LivroDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 
 }

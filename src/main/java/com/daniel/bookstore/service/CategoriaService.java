@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.daniel.bookstore.domain.Categoria;
@@ -41,6 +42,12 @@ public class CategoriaService {
 
 	public void delete(Integer id) {
 		findById(id);
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new com.daniel.bookstore.resources.exceptions.DataIntegrityViolationException("Categoria nao pode ser apagada - Possui livros associados!");
+		}
+		
+		
 	}
 }

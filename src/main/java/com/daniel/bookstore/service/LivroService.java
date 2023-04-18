@@ -50,6 +50,12 @@ public class LivroService {
 		return repository.save(obj);
 	}
 
+	public void delete(Integer id) {
+		Livro obj = findById(id);
+		repository.deleteById(id);
+		
+	}
+
 //	public List<Livro> findAllByCategoria(Integer id_cat) {
 //		categoriaService.findById(id_cat);
 //		return repository.findAllByCategoria(id_cat);
